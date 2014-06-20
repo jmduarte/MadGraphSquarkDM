@@ -1,0 +1,7 @@
+import model SM_Squark_udcs_chi
+define sq = dr sr  dr~ sr~
+define dm = chi chi~
+generate p p > chi chi~ / a h z w+ w- $sq @1
+add process p p > j chi chi~ / a h z w+ w- $sq @2
+add process p p > j j chi chi~ / a h z w+ w- $sq QED=4 QCD=2 @3
+output dmdm

@@ -1,0 +1,8 @@
+import model SM_Squark_drsr_chi
+define sq = dr sr  dr~ sr~
+define dm = chi chi~
+generate p p > sq sq / a h z w+ w- QED=2 QCD=2 @1
+add process p p > j sq sq / a h z w+ w- QED=2 QCD=3 @2
+add process p p > j j sq sq / a h z w+ w- QED=4 QCD=4 @3
+output squarksquark
+

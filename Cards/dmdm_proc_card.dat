@@ -1,4 +1,4 @@
-import model SM_Squark_udcs_chi
+import model SM_Squark_drsr_chi
 define sq = dr sr  dr~ sr~
 define dm = chi chi~
 generate p p > chi chi~ / a h z w+ w- $sq @1

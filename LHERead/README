@@ -1,8 +1,8 @@
 The code produces a set of plots to validate SMS LHE files
 Currently supported models are 
-- T1tttt
+- SquarkDM
 
-Each SMS model corresponds to a specific executable (e.g. python/readT1ttttLHE.py)
+Each SMS model corresponds to a specific executable (e.g. python/readSquarkDMLHE.py)
 which takes two arguments as input
 - name of the LHE file
 - name of the output root file
@@ -17,6 +17,6 @@ export PATH=${PATH}:${ROOTSYS}/bin
 
 - run the script as in the example
 
-python python/readT1ttttLHE.py myLHEfile.lhe myHistoFile.root
+python python/readSquarkDMLHE.py myLHEfile.lhe myHistoFile.root
 
 

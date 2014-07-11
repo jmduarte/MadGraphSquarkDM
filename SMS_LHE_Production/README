@@ -1,0 +1,10 @@
+8TeV_stop   	: the 8TeV stop pair production NLO xsecs 
+hashtag_py  	: python script needed for putting the hashpag in the correct place in LHE files
+merge-pl    	: perl script to be used for merging files
+merging.sh     	: the wrapper for meging LHE files  - More instructions inside the file
+mgPostProcv2.py : python script necessary to correct kinematics of massless leptons and to put the needed matching info in the banner 
+param_card_T2tt_2j_template.dat  : Template card for SMS T2tt production 
+processing2.sh 	: wrapper for decaying the on-shell particls with Pythia and put the correct hashtag at the end
+pythia_decay_template  : Template for CMSSW for makeing thedecays with Pythia - 
+Widths_incl	: Nominal widths for T2tt on-shell production to stop-n1 mode
+

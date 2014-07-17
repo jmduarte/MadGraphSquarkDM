@@ -5,10 +5,11 @@ import glob
 
 if __name__ == '__main__':
 
-    for sample in ["squarkdm"]:
+    for sample in ['squarkdm']:
         
-        indir = "/mnt/hadoop/store/user/jduarte/LHE/%s_Undecayed"%sample
-        outdir = "/mnt/hadoop/store/user/jduarte/LHE/%s_Merged"%sample
+        indir = '/mnt/hadoop/store/user/jduarte/LHE/%s_Undecayed'%sample
+        outdir = '/mnt/hadoop/store/user/jduarte/LHE/%s_Merged'%sample
+        paramcard = "../Cards/dmdm_param_card.dat"
         
         #for mDM in [1.0, 10.0, 50.0, 100.0, 150.0, 400.0, 600.0, 900.0, 1000.0]:
         for mDM in [1000.0]: 
@@ -18,16 +19,26 @@ if __name__ == '__main__':
                     GammaMin = (mM / (16*rt.TMath.Pi()) ) * rt.TMath.Power(1.0 - rt.TMath.Power(mDM/mM,2.0),2.0)
                     #for gM in [GammaMin, mM/100.0, mM/3.0]:
                     for gM in [GammaMin]:
-                        if not glob.glob("%s/8TeV_%s_%i_%i_%i.lhe.gz"%(outdir,sample,mDM,mM,gM)):
-                            for fileName in glob.glob("%s/8TeV_%s_%i_%i_%i_run*.lhe.gz"%(indir,sample,mDM,mM,gM)):
-                                print fileName
-                                os.system("mkdir -p tmp_dir")
-                                os.system("cp %s tmp_dir/"%fileName)
-                                fileName = fileName.split("/")[-1]
-                                os.system("gzip -d tmp_dir/%s"%fileName)
-                                fileName = fileName.replace(".gz","")
-                            os.system("grep -c  "<event>" tmp_dir/8TeV_%s_%i_%i_%i_run*.lhe.gz >> 8TeV_%s_%i_%i_%i"%(indir,sample,mDM,mM,gM,sample,mDM,mM,gM))
-                            eventFile = open("tmp_dir/8TeV_%s_%i_%i_%i"%(indir,sample,mDM,mM,gM,sample,mDM,mM,gM)
+                        if not glob.glob('%s/8TeV_%s_%i_%i_%i.lhe.gz'%(outdir,sample,mDM,mM,gM)):
+                            for fileName in glob.glob('%s/8TeV_%s_%i_%i_%i_run*.lhe.gz'%(indir,sample,mDM,mM,gM)):
+                                print 'copying %s'%fileName
+                                os.system('mkdir -p tmp_dir')
+                                os.system('cp %s tmp_dir/'%fileName)
+                                fileName = fileName.split('/')[-1]
+                                os.system('gzip -d tmp_dir/%s'%fileName)
+                                fileName = fileName.replace('.gz','')
+                            os.system('grep -c  "<event>" tmp_dir/8TeV_%s_%i_%i_%i_run*.lhe.gz >> 8TeV_%s_%i_%i_%i.txt'%(indir,sample,mDM,mM,gM,sample,mDM,mM,gM))
+                            eventFile = open('tmp_dir/8TeV_%s_%i_%i_%i.txt'%(indir,sample,mDM,mM,gM,sample,mDM,mM,gM))
+                            eventList = [int(eventString) for eventString in eventFile.readlines()]
+                            nEvents = sum(eventList)
+                            print 'total events to merge is %i'%nEvents
+                            os.system('rm 8TeV_%s_%i_%i_%i.txt'%(sample,mDM,mM,gM))
+                            os.system('sed -e \'s/DARKMATTERMASS/%i/g\' -e \'s/MEDIATORMASS/%i/g\' -e \'s/MEDIATORWIDTH/%i/g\' %s > banner.txt\n'%(mDM,mM,GammaM,paramcard))
+                            os.system('perl merge-pl tmp_dir/8TeV_%s_%i_%i_%i_*.lhe  8TeV_%s_%i_%i_%i_run1_%ievnt.lhe.gz  banner.txt'%(sample,mDM,mM,gM,sample,mDM,mM,gM,nEvents))
+                            os.system('gzip -d  8TeV_%s_%i_%i_%i_run1_%ievnt.lhe.gz'%(sample,mDM,mM,gM))
+                            tagModel = "%s_%i_%i_%f"%(sample,mDM,mM,gM)
+                            nlo = 0
+                            os.system('echo sed  -e \'s/<\/event>/# model %s %s\n<\/event>/g\' 8TeV_%s_%i_%i_%i_run1_%ievnt.lhe  > com'%(tagModel,nlo,sample,mDM,mM,gM)
                             
                             #os.system("rm -r tmp_dir")
                                 

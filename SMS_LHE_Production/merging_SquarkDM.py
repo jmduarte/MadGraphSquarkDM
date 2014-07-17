@@ -27,17 +27,23 @@ if __name__ == '__main__':
                                 fileName = fileName.split('/')[-1]
                                 os.system('gzip -d tmp_dir/%s'%fileName)
                                 fileName = fileName.replace('.gz','')
-                            os.system('grep -c  "<event>" tmp_dir/8TeV_%s_%i_%i_%i_run*.lhe.gz >> 8TeV_%s_%i_%i_%i.txt'%(sample,mDM,mM,gM,sample,mDM,mM,gM))
-                            eventFile = open('tmp_dir/8TeV_%s_%i_%i_%i.txt'%(sample,mDM,mM,gM,sample,mDM,mM,gM))
+                                os.system('grep -c  "<event>" tmp_dir/%s >> 8TeV_%s_%i_%i_%i.txt'%(fileName,sample,mDM,mM,gM))
+                                os.system('grep \'Integrated weight (pb)\' tmp_dir/%s >> loXsec.txt'%(fileName)
+                            xsecFile = open('loXsec.txt')
+                            xsecList = [float(xsecString.split(":")[-1]) for xsecString in xsecFile.readlines()]
+                            print xsecList
+                            xsec = xsecList[-1]
+                            eventFile = open('8TeV_%s_%i_%i_%i.txt'%(sample,mDM,mM,gM))
                             eventList = [int(eventString) for eventString in eventFile.readlines()]
+                            print evenList
                             nEvents = sum(eventList)
                             print 'total events to merge is %i'%nEvents
                             os.system('rm 8TeV_%s_%i_%i_%i.txt'%(sample,mDM,mM,gM))
+                            os.system('rm loXsec.txt')
                             os.system('sed -e \'s/DARKMATTERMASS/%i/g\' -e \'s/MEDIATORMASS/%i/g\' -e \'s/MEDIATORWIDTH/%i/g\' %s > banner.txt\n'%(mDM,mM,GammaM,paramcard))
                             os.system('perl merge-pl tmp_dir/8TeV_%s_%i_%i_%i_*.lhe  8TeV_%s_%i_%i_%i_run1_%ievnt.lhe.gz  banner.txt'%(sample,mDM,mM,gM,sample,mDM,mM,gM,nEvents))
-                            os.system('gzip -d  8TeV_%s_%i_%i_%i_run1_%ievnt.lhe.gz'%(sample,mDM,mM,gM))
+                            os.system('gzip -d 8TeV_%s_%i_%i_%i_run1_%ievnt.lhe.gz'%(sample,mDM,mM,gM))
                             tagModel = "%s_%i_%i_%f"%(sample,mDM,mM,gM)
-                            nlo = 0
-                            os.system('echo sed  -e \'s/<\/event>/# model %s %s\n<\/event>/g\' 8TeV_%s_%i_%i_%i_run1_%ievnt.lhe  > com'%(tagModel,nlo,sample,mDM,mM,gM))
+                            os.system('echo sed  -e \'s/<\/event>/# model %s %s\n<\/event>/g\' 8TeV_%s_%i_%i_%i_run1_%ievnt.lhe  > com'%(tagModel,xsec,sample,mDM,mM,gM))
                             #os.system("rm -r tmp_dir")
                             

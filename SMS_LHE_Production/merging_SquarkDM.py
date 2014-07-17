@@ -39,7 +39,4 @@ if __name__ == '__main__':
                             tagModel = "%s_%i_%i_%f"%(sample,mDM,mM,gM)
                             nlo = 0
                             os.system('echo sed  -e \'s/<\/event>/# model %s %s\n<\/event>/g\' 8TeV_%s_%i_%i_%i_run1_%ievnt.lhe  > com'%(tagModel,nlo,sample,mDM,mM,gM)
-                            
                             #os.system("rm -r tmp_dir")
-                                
-        

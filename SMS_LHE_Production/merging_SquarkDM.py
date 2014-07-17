@@ -45,9 +45,9 @@ if __name__ == '__main__':
                             os.system('/opt/rocks/bin/perl merge-pl tmp_dir/8TeV_%s_%i_%i_%i_*.lhe  8TeV_%s_%i_%i_%i_run1_%ievnt.lhe.gz  banner.txt'%(sample,mDM,mM,gM,sample,mDM,mM,gM,nEvents))
                             os.system('gzip -d 8TeV_%s_%i_%i_%i_run1_%ievnt.lhe.gz'%(sample,mDM,mM,gM,nEvents))
                             tagModel = "%s_%i_%i_%f"%(sample,mDM,mM,gM)
-                            os.system('echo sed  -e \'s/<\/event>/# model %s %s\n<\/event>/g\' 8TeV_%s_%i_%i_%i_run1_%ievnt.lhe  > com'%(tagModel,xsec,sample,mDM,mM,gM,nEvents))
-                            os.system('sed -i "s/ s/ \'s/g" com')
-                            os.system('sed -i "s/g/ g\'/g" com')
+                            f = open(com,'w')
+                            f.write('sed  -e \'s/<\/event>/# model %s %s\\n<\/event>/g\' 8TeV_%s_%i_%i_%i_run1_%ievnt.lhe  > com'%(tagModel,xsec,sample,mDM,mM,gM,nEvents))
+                            f.close()
                             os.system('source com > temp.lhe')
                             os.system('mkdir -p PostProcessed')
                             qcut = 45
@@ -57,5 +57,5 @@ if __name__ == '__main__':
                             os.system('gzip PostProcessed/8TeV_%s_%i_%i_%i_run1_%ievnt.lhe'%(sample,mDM,mM,gM,nEvents))
                             os.system('mv PostProcessed/8TeV_%s_%i_%i_%i_run1_%ievnt.lhe.gz %s/'%(sample,mDM,mM,gM,nEvents,outdir))
                             # clean up
-                            os.system('rm *.lhe; rm *.lhe.gz; rm tmp_dir/*.lhe')
+                            os.system('rm *.lhe; rm tmp_dir/*.lhe')
                             

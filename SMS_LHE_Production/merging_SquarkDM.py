@@ -27,8 +27,8 @@ if __name__ == '__main__':
                                 fileName = fileName.split('/')[-1]
                                 os.system('gzip -d tmp_dir/%s'%fileName)
                                 fileName = fileName.replace('.gz','')
-                            os.system('grep -c  "<event>" tmp_dir/8TeV_%s_%i_%i_%i_run*.lhe.gz >> 8TeV_%s_%i_%i_%i.txt'%(indir,sample,mDM,mM,gM,sample,mDM,mM,gM))
-                            eventFile = open('tmp_dir/8TeV_%s_%i_%i_%i.txt'%(indir,sample,mDM,mM,gM,sample,mDM,mM,gM))
+                            os.system('grep -c  "<event>" tmp_dir/8TeV_%s_%i_%i_%i_run*.lhe.gz >> 8TeV_%s_%i_%i_%i.txt'%(sample,mDM,mM,gM,sample,mDM,mM,gM))
+                            eventFile = open('tmp_dir/8TeV_%s_%i_%i_%i.txt'%(sample,mDM,mM,gM,sample,mDM,mM,gM))
                             eventList = [int(eventString) for eventString in eventFile.readlines()]
                             nEvents = sum(eventList)
                             print 'total events to merge is %i'%nEvents
@@ -38,5 +38,6 @@ if __name__ == '__main__':
                             os.system('gzip -d  8TeV_%s_%i_%i_%i_run1_%ievnt.lhe.gz'%(sample,mDM,mM,gM))
                             tagModel = "%s_%i_%i_%f"%(sample,mDM,mM,gM)
                             nlo = 0
-                            os.system('echo sed  -e \'s/<\/event>/# model %s %s\n<\/event>/g\' 8TeV_%s_%i_%i_%i_run1_%ievnt.lhe  > com'%(tagModel,nlo,sample,mDM,mM,gM)
+                            os.system('echo sed  -e \'s/<\/event>/# model %s %s\n<\/event>/g\' 8TeV_%s_%i_%i_%i_run1_%ievnt.lhe  > com'%(tagModel,nlo,sample,mDM,mM,gM))
                             #os.system("rm -r tmp_dir")
+                            

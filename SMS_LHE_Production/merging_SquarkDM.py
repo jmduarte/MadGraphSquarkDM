@@ -28,7 +28,7 @@ if __name__ == '__main__':
                                 os.system('gzip -d tmp_dir/%s'%fileName)
                                 fileName = fileName.replace('.gz','')
                                 os.system('grep -c  "<event>" tmp_dir/%s >> 8TeV_%s_%i_%i_%i.txt'%(fileName,sample,mDM,mM,gM))
-                                os.system('grep \'Integrated weight (pb)\' tmp_dir/%s >> loXsec.txt'%(fileName)
+                                os.system('grep \'Integrated weight (pb)\' tmp_dir/%s >> loXsec.txt'%(fileName))
                             xsecFile = open('loXsec.txt')
                             xsecList = [float(xsecString.split(":")[-1]) for xsecString in xsecFile.readlines()]
                             print xsecList

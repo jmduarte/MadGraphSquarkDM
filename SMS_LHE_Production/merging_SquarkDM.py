@@ -38,6 +38,7 @@ if __name__ == '__main__':
                             print eventList
                             nEvents = sum(eventList)
                             print 'total events to merge is %i'%nEvents
+                            print 'cross section is %s pb'%xsec
                             os.system('rm 8TeV_%s_%i_%i_%i.txt'%(sample,mDM,mM,gM))
                             os.system('rm loXsec.txt')
                             os.system('sed -e \'s/DARKMATTERMASS/%i/g\' -e \'s/MEDIATORMASS/%i/g\' -e \'s/MEDIATORWIDTH/%i/g\' %s > banner.txt\n'%(mDM,mM,gM,paramcard))

@@ -20,11 +20,15 @@ if __name__ == '__main__':
                     for gM in [GammaMin]:
                         if not glob.glob("%s/8TeV_%s_%i_%i_%i.lhe.gz"%(outdir,sample,mDM,mM,gM)):
                             for fileName in glob.glob("%s/8TeV_%s_%i_%i_%i_run*.lhe.gz"%(indir,sample,mDM,mM,gM)):
-                                fileName = fileName.replace(".gz","")
                                 print fileName
                                 os.system("mkdir -p tmp_dir")
                                 os.system("cp %s tmp_dir/"%fileName)
+                                fileName = fileName.split("/")[-1]
                                 os.system("gzip -d tmp_dir/%s"%fileName)
-                                #os.system("rm -r tmp_dir")
+                                fileName = fileName.replace(".gz","")
+                            os.system("grep -c  "<event>" tmp_dir/8TeV_%s_%i_%i_%i_run*.lhe.gz >> 8TeV_%s_%i_%i_%i"%(indir,sample,mDM,mM,gM,sample,mDM,mM,gM))
+                            eventFile = open("tmp_dir/8TeV_%s_%i_%i_%i"%(indir,sample,mDM,mM,gM,sample,mDM,mM,gM)
+                            
+                            #os.system("rm -r tmp_dir")
                                 
         

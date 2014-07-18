@@ -19,7 +19,7 @@ if __name__ == '__main__':
                     GammaMin = (mM / (16*rt.TMath.Pi()) ) * rt.TMath.Power(1.0 - rt.TMath.Power(mDM/mM,2.0),2.0)
                     #for gM in [GammaMin, mM/100.0, mM/3.0]:
                     for gM in [GammaMin]:
-                        if not glob.glob('%s/8TeV_%s_%i_%i_%i.lhe.gz'%(outdir,sample,mDM,mM,gM)):
+                        if not glob.glob('%s/8TeV_%s_%i_%i_%i_run1_%ievnt.lhe.gz'%(outdir,sample,mDM,mM,gM,400000)):
                             for fileName in glob.glob('%s/8TeV_%s_%i_%i_%i_run*.lhe.gz'%(indir,sample,mDM,mM,gM)):
                                 print 'copying %s'%fileName
                                 os.system('mkdir -p tmp_dir')

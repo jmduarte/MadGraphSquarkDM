@@ -36,14 +36,14 @@ process.generator = cms.EDFilter("Pythia6HadronizerFilter",
     PythiaParameters = cms.PSet(
         pythiaUESettingsBlock,
         processParameters = cms.vstring(
-'MSEL=0','IMSS(1)=11',
+'MSEL=0','IMSS(1)=0',
 'MSTP(161)=67',
 'MSTP(162)=68',
 'MSTP(163)=69',
+'PMAS(18,1)=DARKMATTERMASS'
 ),
         SLHAParameters = cms.vstring(
-		#'SLHAFILE = GeneratorInterface/Pythia6Interface/test/temp.lhe'),
-	'SLHAFILE = SMS_LHE_Production/SquarkDM.slha'),
+	'SLHAFILE = MadGraphSquarkDM/SMS_LHE_Production/FILEIN'),
         parameterSets = cms.vstring('pythiaUESettings', 
             'processParameters','SLHAParameters')
     )

@@ -1,0 +1,24 @@
+import os
+os.rename("second","second~")
+a=[]
+f=open("first","r")
+lines=f.readlines()
+b=-1
+for line in lines:
+    if "</event>" in str(line):
+        if b!=-1:
+            a.append(lines[b])
+        else:
+            print "</event> found in first line"
+    b=b+1
+f.close()
+b=0
+destination = open("second","w")
+source = open("second"+"~","r")
+for line in source:
+    if "</event>" in str(line):
+        destination.write(a[b])
+        b=b+1
+    destination.write(line)
+source.close()
+destination.close()

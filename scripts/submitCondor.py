@@ -39,7 +39,7 @@ def writeScript(outputName,pwd,tarBall,mDM,mM,GammaM,run_number):
     outputFile.write('time ./bin/generate_events run_%i -f\n'%(run_number))
     outputFile.write('cp Events/run_%i/unweighted_events.lhe.gz /mnt/hadoop/store/user/jduarte/LHE/%s_Undecayed/8TeV_%s_%i_%i_%i_run_%i_unwt.lhe.gz\n'%(run_number,directory,directory,mDM,mM,GammaM,run_number))
     outputFile.write('cp Events/run_%i/unweighted_events.lhe.gz /home/nsirohi/MG5/CMSSW_5_3_18/src/MG5_aMC_v2_1_1/events/%s_Undecayed/8TeV_%s_%i_%i_%f_run_%i_unwt.lhe.gz\n'%(run_number,directory,directory,mDM,mM,GammaM,run_number))
-    outputFile.write('cd ../..; rm -r wntmp/%s/%s/*'%(user,outputName)) # Needed to go one more directory up. 
+    outputFile.write('cd ../..; rm -r /wntmp/%s/%s/*'%(user,outputName)) # Needed to go one more directory up. 
     outputFile.close()
 
     # cards

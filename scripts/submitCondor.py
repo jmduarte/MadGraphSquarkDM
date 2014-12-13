@@ -28,10 +28,9 @@ def writeScript(outputName,pwd,tarBall,mDM,mM,GammaM,run_number):
     outputFile = open(submitScript,'w')
     outputFile.write('#!/bin/sh\n')
     outputFile.write('hostname -f\n') 
-    outputFile.write('mkdir -p wntmp\n') # Added by me; we'll see.
-    outputFile.write('mkdir -p wntmp/%s\n'%(user))
-    outputFile.write('mkdir -p wntmp/%s/%s\n'%(user,outputName)) 
-    outputFile.write('cd wntmp/%s/%s\n'%(user,outputName))
+    outputFile.write('mkdir -p /wntmp/%s\n'%(user))
+    outputFile.write('mkdir -p /wntmp/%s/%s\n'%(user,outputName)) 
+    outputFile.write('cd /wntmp/%s/%s\n'%(user,outputName))
     outputFile.write('cp %s/%s .\n'%(pwd,tarBall)) 
     outputFile.write('tar -xvf %s\n'%tarBall) # Neends to be xvf, not xvzf
     outputFile.write('cd %s/Cards/\n'%directory)

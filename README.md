@@ -3,6 +3,7 @@ MadGraphSquarkDM
 
 scripts for MadGraph5 generation of SquarkDM t-channel model
 
+```
 cmsrel CMSSW_5_3_22
 cd CMSSW_5_3_22/src
 cmsenv
@@ -17,3 +18,4 @@ cp ../Cards/dmdm_param_card.dat dmdm/Cards/param_card_default.dat
 cp ../Cards/dmdm_run_card.dat dmdm/Cards/run_card.dat
 tar cvzf dmdm.tar.gz dmdm
 rm -r dmdm
+```

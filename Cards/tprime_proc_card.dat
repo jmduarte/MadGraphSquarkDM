@@ -1,4 +1,4 @@
-import model prime
+import model tprime
 define p = u u~ d d~ s s~ c c~ b b~ g
 define j = p
 generate p p > tp j 

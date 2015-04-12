@@ -2,5 +2,5 @@ import model tprime
 define p = u u~ d d~ s s~ c c~ b b~ g
 define j = p
 generate p p > tp j 
-add process p p > tp∼ j
-output pp tpj thj
+add process p p > tp~ j
+output tprime

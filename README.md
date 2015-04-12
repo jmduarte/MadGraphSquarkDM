@@ -32,7 +32,15 @@ wget https://launchpad.net/mg5amcnlo/2.0/2.2.0/+download/MG5_aMC_v2.2.3.tar.gz -
 tar xvzf MG5_aMC_v2.2.3.tar.gz
 rm MG5_aMC_v2.2.3.tar.gz
 cd MG5_aMC_v2.2.3
-cp -r ../models/tprime
+cp -r ../models/tprime models/tprime
+./bin/mg5 
+MG5_aMC> install pythia-pgs
+# if the above doesn't work you can download it and compile it directly:
+wget http://madgraph.phys.ucl.ac.be/Downloads/pythia-pgs_V2.4.3.tar.gz
+tar xvzf pythia-pgs_V2.4.3.tar.gz
+cd pythia-pgs/src
+make all -j 4
+# 
 ./bin/mg5 ../Cards/tprime_proc_card.dat
 cp ../Cards/tprime_param_card.dat tprime/Cards/param_card.dat
 cp ../Cards/tprime_run_card.dat tprime/Cards/run_card.dat
@@ -40,3 +48,4 @@ cd tprime
 ./bin/generate_events
 rm -r tprime
 ```
+

@@ -44,21 +44,21 @@ if __name__ == '__main__':
                             exec_me('rm 8TeV_%s_%i_%i.txt'%(sample,mM,mLSP))
                             exec_me('rm loXsec.txt')
                             exec_me('sed -e \'s/MSBOTTOM/%i/g\' -e \'s/MLSP/%i/g\' -e \'s/MNLSP/%i/g\' -e \'s/BRANCHINGRATIO2/%f/g\' -e \'s/BRANCHINGRATIO1/%f/g\' %s > banner.txt\n'%(mM,mLSP,mNLSP,BR,1-BR,paramcard))
-                            exec_me('/opt/rocks/bin/perl merge-pl tmp_dir/8TeV_%s_%i_%i_*.lhe  8TeV_%s_%i_%i_run1_%ievnt.lhe.gz  banner.txt'%(sample,mM,mLSP,sample,mM,mLSP,nEvents))
+                            exec_me('/opt/rocks/bin/perl merge-pl tmp_dir/8TeV_%s_%i_%i_*.lhe  8TeV_%s_%i_%i_BR%.1f_run1_%ievnt.lhe.gz  banner.txt'%('T2tt',mM,mLSP,sample,mM,mLSP,BR,nEvents))
                             sys.exit()
-                            exec_me('gzip -d 8TeV_%s_%i_%i_run1_%ievnt.lhe.gz'%(sample,mM,mLSP,nEvents))
-                            tagModel = "%s_%i_%i"%(sample,mM,mLSP)
+                            exec_me('gzip -d 8TeV_%s_%i_%i_BR%.1frun1_%ievnt.lhe.gz'%(sample,mM,mLSP,BR,nEvents))
+                            tagModel = "%s_%i_%i_BR%.1f"%(sample,mM,mLSP,BR)
                             f = open('com','w')
-                            f.write('sed  -e \'s/<\/event>/# model %s %s\\n<\/event>/g\' 8TeV_%s_%i_%i_run1_%ievnt.lhe'%(tagModel,xsec,sample,mM,mLSP,nEvents))
+                            f.write('sed  -e \'s/<\/event>/# model %s %s\\n<\/event>/g\' 8TeV_%s_%i_%i_BR%.1f_run1_%ievnt.lhe'%(tagModel,xsec,sample,mM,mLSP,BR,nEvents))
                             f.close()
                             exec_me('source com > temp.lhe')
                             exec_me('mkdir -p PostProcessed')
                             qcut = 45
                             
                             exec_me('python  mgPostProcv2.py  -o temp2.lhe -j 5 -q %i -e 5 -s temp.lhe'%qcut)
-                            exec_me('mv temp2.lhe PostProcessed/8TeV_%s_%i_%i_run1_%ievnt.lhe'%(sample,mM,mLSP,nEvents))
-                            exec_me('gzip PostProcessed/8TeV_%s_%i_%i_run1_%ievnt.lhe'%(sample,mM,mLSP,nEvents))
-                            exec_me('mv PostProcessed/8TeV_%s_%i_%i_run1_%ievnt.lhe.gz %s/'%(sample,mM,mLSP,nEvents,outdir))
+                            exec_me('mv temp2.lhe PostProcessed/8TeV_%s_%i_%i_%.1f_run1_%ievnt.lhe'%(sample,mM,mLSP,BR,nEvents))
+                            exec_me('gzip PostProcessed/8TeV_%s_%i_%i_%.1f_run1_%ievnt.lhe'%(sample,mM,mLSP,BR,nEvents))
+                            exec_me('mv PostProcessed/8TeV_%s_%i_%i_%.1f_run1_%ievnt.lhe.gz %s/'%(sample,mM,mLSP,BR,nEvents,outdir))
                             # clean up
                             exec_me('rm *.lhe; rm tmp_dir/*.lhe')
                             

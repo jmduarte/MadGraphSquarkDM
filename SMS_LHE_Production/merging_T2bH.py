@@ -44,7 +44,7 @@ if __name__ == '__main__':
                             exec_me('rm 8TeV_%s_%i_%i.txt'%(sample,mM,mLSP))
                             exec_me('rm loXsec.txt')
                             exec_me('sed -e \'s/MSBOTTOM/%i/g\' -e \'s/MLSP/%i/g\' -e \'s/MNLSP/%i/g\' -e \'s/BRANCHINGRATIO2/%f/g\' -e \'s/BRANCHINGRATIO1/%f/g\' %s > banner.txt\n'%(mM,mLSP,mNLSP,BR,1-BR,paramcard))
-                            exec_me('/opt/rocks/bin/perl merge-pl tmp_dir/8TeV_%s_%i_%i_*.lhe  8TeV_%s_%i_%i_BR%.1f_run1_%ievnt.lhe.gz  banner.txt'%('T2tt',mM,mLSP,sample,mM,mLSP,BR,nEvents))
+                            exec_me('/opt/rocks/bin/perl merge-pl tmp_dir/8TeV_%s_%i_%i_*.lhe  8TeV_%s_%i_%i_BR%.1f_run1_%ievnt.lhe.gz  banner.txt'%('T2tt_2j',mM,mLSP,sample,mM,mLSP,BR,nEvents))
                             sys.exit()
                             exec_me('gzip -d 8TeV_%s_%i_%i_BR%.1frun1_%ievnt.lhe.gz'%(sample,mM,mLSP,BR,nEvents))
                             tagModel = "%s_%i_%i_BR%.1f"%(sample,mM,mLSP,BR)

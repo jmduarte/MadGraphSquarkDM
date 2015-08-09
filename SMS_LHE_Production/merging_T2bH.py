@@ -3,11 +3,16 @@ import sys
 import ROOT as rt
 import glob
 
+def exec_me(cmd,dryRun=False):
+    print cmd
+    if not dryRun:
+        os.system(cmd)    
+    
 if __name__ == '__main__':
 
     for sample in ['T2bH']:
 
-        indir = '/mnt/hadoop/store/user/jduarte/LHE/T2_Undecayed'%sample
+        indir = '/mnt/hadoop/store/user/jduarte/LHE/T2_Undecayed'
         outdir = '/mnt/hadoop/store/user/jduarte/LHE/T2bH_Merged'
         paramcard = "T2bH.slha"
         
@@ -19,13 +24,13 @@ if __name__ == '__main__':
                             print '%s/8TeV_%s_%i_%i_run*.lhe.gz'%(indir,"T2tt_2j",mM,mLSP)
                             for fileName in glob.glob('%s/8TeV_%s_%i_%i_run*.lhe.gz'%(indir,"T2tt_2j",mM,mLSP)):
                                 print 'copying %s'%fileName
-                                os.system('mkdir -p tmp_dir')
-                                os.system('cp %s tmp_dir/'%fileName)
+                                exec_me('mkdir -p tmp_dir')
+                                exec_me('cp %s tmp_dir/'%fileName)
                                 fileName = fileName.split('/')[-1]
-                                os.system('gzip -d tmp_dir/%s'%fileName)
+                                exec_me('gzip -d tmp_dir/%s'%fileName)
                                 fileName = fileName.replace('.gz','')
-                                os.system('grep -c  "<event>" tmp_dir/%s >> 8TeV_%s_%i_%i.txt'%(fileName,sample,mM,mLSP))
-                                os.system('grep \'Integrated weight (pb)\' tmp_dir/%s >> loXsec.txt'%(fileName))
+                                exec_me('grep -c  "<event>" tmp_dir/%s >> 8TeV_%s_%i_%i.txt'%(fileName,sample,mM,mLSP))
+                                exec_me('grep \'Integrated weight (pb)\' tmp_dir/%s >> loXsec.txt'%(fileName))
                             xsecFile = open('loXsec.txt')
                             xsecList = [xsecString.split(":")[-1] for xsecString in xsecFile.readlines()]
                             print xsecList
@@ -36,23 +41,24 @@ if __name__ == '__main__':
                             nEvents = sum(eventList)
                             print 'total events to merge is %i'%nEvents
                             print 'cross section is %s pb'%xsec
-                            os.system('rm 8TeV_%s_%i_%i.txt'%(sample,mM,mLSP))
-                            os.system('rm loXsec.txt')
-                            os.system('sed -e \'s/MSBOTTOM/%i/g\' -e \'s/MLSP/%i/g\' -e \'s/MNLSP/%i/g\' -e \'s/BRANCHINGRATIO2/%f/g\' -e \'s/BRANCHINGRATIO1/%f/g\' %s > banner.txt\n'%(mM,mLSP,mNLSP,BR,1-BR,paramcard))
-                            os.system('/opt/rocks/bin/perl merge-pl tmp_dir/8TeV_%s_%i_%i_*.lhe  8TeV_%s_%i_%i_run1_%ievnt.lhe.gz  banner.txt'%(sample,mM,mLSP,sample,mM,mLSP,nEvents))
-                            os.system('gzip -d 8TeV_%s_%i_%i_run1_%ievnt.lhe.gz'%(sample,mM,mLSP,nEvents))
+                            exec_me('rm 8TeV_%s_%i_%i.txt'%(sample,mM,mLSP))
+                            exec_me('rm loXsec.txt')
+                            exec_me('sed -e \'s/MSBOTTOM/%i/g\' -e \'s/MLSP/%i/g\' -e \'s/MNLSP/%i/g\' -e \'s/BRANCHINGRATIO2/%f/g\' -e \'s/BRANCHINGRATIO1/%f/g\' %s > banner.txt\n'%(mM,mLSP,mNLSP,BR,1-BR,paramcard))
+                            exec_me('/opt/rocks/bin/perl merge-pl tmp_dir/8TeV_%s_%i_%i_*.lhe  8TeV_%s_%i_%i_run1_%ievnt.lhe.gz  banner.txt'%(sample,mM,mLSP,sample,mM,mLSP,nEvents))
+                            sys.exit()
+                            exec_me('gzip -d 8TeV_%s_%i_%i_run1_%ievnt.lhe.gz'%(sample,mM,mLSP,nEvents))
                             tagModel = "%s_%i_%i"%(sample,mM,mLSP)
                             f = open('com','w')
                             f.write('sed  -e \'s/<\/event>/# model %s %s\\n<\/event>/g\' 8TeV_%s_%i_%i_run1_%ievnt.lhe'%(tagModel,xsec,sample,mM,mLSP,nEvents))
                             f.close()
-                            os.system('source com > temp.lhe')
-                            os.system('mkdir -p PostProcessed')
+                            exec_me('source com > temp.lhe')
+                            exec_me('mkdir -p PostProcessed')
                             qcut = 45
                             
-                            os.system('python  mgPostProcv2.py  -o temp2.lhe -j 5 -q %i -e 5 -s temp.lhe'%qcut)
-                            os.system('mv temp2.lhe PostProcessed/8TeV_%s_%i_%i_run1_%ievnt.lhe'%(sample,mM,mLSP,nEvents))
-                            os.system('gzip PostProcessed/8TeV_%s_%i_%i_run1_%ievnt.lhe'%(sample,mM,mLSP,nEvents))
-                            os.system('mv PostProcessed/8TeV_%s_%i_%i_run1_%ievnt.lhe.gz %s/'%(sample,mM,mLSP,nEvents,outdir))
+                            exec_me('python  mgPostProcv2.py  -o temp2.lhe -j 5 -q %i -e 5 -s temp.lhe'%qcut)
+                            exec_me('mv temp2.lhe PostProcessed/8TeV_%s_%i_%i_run1_%ievnt.lhe'%(sample,mM,mLSP,nEvents))
+                            exec_me('gzip PostProcessed/8TeV_%s_%i_%i_run1_%ievnt.lhe'%(sample,mM,mLSP,nEvents))
+                            exec_me('mv PostProcessed/8TeV_%s_%i_%i_run1_%ievnt.lhe.gz %s/'%(sample,mM,mLSP,nEvents,outdir))
                             # clean up
-                            os.system('rm *.lhe; rm tmp_dir/*.lhe')
+                            exec_me('rm *.lhe; rm tmp_dir/*.lhe')
                             

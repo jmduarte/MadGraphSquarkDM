@@ -31,6 +31,7 @@ if __name__ == '__main__':
                                 fileName = fileName.replace('.gz','')
                                 exec_me('grep -c  "<event>" tmp_dir/%s >> 8TeV_%s_%i_%i_BR%.1f.txt'%(fileName,sample,mM,mLSP,BR))
                                 exec_me('grep \'Integrated weight (pb)\' tmp_dir/%s >> loXsec.txt'%(fileName))
+                                exec_me('sed -i "s/1000006    1    1    2/1000005    1    1    2/g" tmp_dir/%s'%fileName)
                             xsecFile = open('loXsec.txt')
                             xsecList = [xsecString.split(":")[-1] for xsecString in xsecFile.readlines()]
                             print xsecList

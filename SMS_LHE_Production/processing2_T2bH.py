@@ -12,6 +12,7 @@ if __name__ == '__main__':
     
     indir = "/mnt/hadoop/store/user/jduarte/LHE/T2bH_Merged"
     outdir = "/mnt/hadoop/store/user/jduarte/LHE/T2bH"
+    paramcard = "T2bH.slha"
 
     for sample in ['T2bH']:
         for mM,mLSP in [(475,100),(600,200)]:
@@ -29,8 +30,10 @@ if __name__ == '__main__':
                         fileName = fileName.split("/")[-1]
                         pathName = "work_%i_%i_BR%.1f\/%s"%(mM,mLSP,BR,fileName)
                         exec_me("gzip -d %s.gz"%fileName)
-                        exec_me("gzip -d ../%s.gz"%fileName)
+                        exec_me("gzip -d ../%s.gz"%fileName)                        
+                        exec_me('sed -e \'s/MSBOTTOM/%i/g\' -e \'s/MLSP/%i/g\' -e \'s/MNLSP/%i/g\' -e \'s/BRANCHINGRATIO2/%f/g\' -e \'s/BRANCHINGRATIO1/%f/g\' ../%s > ../%s_%i_%i_BR%.1f.slha\n'%(mM,mLSP,mNLSP,BR,1-BR,paramcard,sample,mM,mLSP,BR))
                         exec_me("sed -i 's/FILEIN/%s/g' pythia.py"%fileName)
+                        exec_me("sed -i 's/SLHAIN/%s_%i_%i_BR%.1f.slha/g' pythia.py"%(sample,mM,mLSP,BR))
                         #exec_me("sed -i 's/DARKMATTERMASS/%i/g' pythia.py"%mDM)
                         #exec_me("sed -i 's/# Wsdr/# Wsdr\\n   1.0   2  18        1/g' %s"%fileName)
                         #exec_me("sed -i 's/# Wssr/# Wssr\\n   1.0   2  18        3/g' %s"%fileName)
